@@ -76,7 +76,6 @@ export const calendarMixinWrapper = ComposeComponent => class extends ComposeCom
         style={this.props.style}
         tabIndex="0"
         onKeyDown={this.onKeyDown}
-        onBlur={this.onBlur}
       >
         {newProps.children}
       </div>
