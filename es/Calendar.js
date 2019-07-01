@@ -1,23 +1,30 @@
-import _extends from "babel-runtime/helpers/extends";
-import _classCallCheck from "babel-runtime/helpers/classCallCheck";
-import _possibleConstructorReturn from "babel-runtime/helpers/possibleConstructorReturn";
-import _inherits from "babel-runtime/helpers/inherits";
-import React from "react";
-import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import KeyCode from "rc-util/es/KeyCode";
-import { polyfill } from "react-lifecycles-compat";
-import DateTable from "./date/DateTable";
-import CalendarHeader from "./calendar/CalendarHeader";
-import CalendarFooter from "./calendar/CalendarFooter";
-import { calendarMixinWrapper, calendarMixinPropTypes, calendarMixinDefaultProps, getNowByCurrentStateValue } from "./mixin/CalendarMixin";
-import { commonMixinWrapper, propType, defaultProp } from "./mixin/CommonMixin";
-import DateInput from "./date/DateInput";
-import { getTimeConfig, getTodayTime, syncTime } from "./util";
-import { goStartMonth, goEndMonth, goTime } from "./util/toTime";
-import moment from "moment";
+import _extends from 'babel-runtime/helpers/extends';
+import _classCallCheck from 'babel-runtime/helpers/classCallCheck';
+import _possibleConstructorReturn from 'babel-runtime/helpers/possibleConstructorReturn';
+import _inherits from 'babel-runtime/helpers/inherits';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import KeyCode from 'rc-util/es/KeyCode';
+import { polyfill } from 'react-lifecycles-compat';
+import DateTable from './date/DateTable';
+import CalendarHeader from './calendar/CalendarHeader';
+import CalendarFooter from './calendar/CalendarFooter';
+import { calendarMixinWrapper, calendarMixinPropTypes, calendarMixinDefaultProps, getNowByCurrentStateValue } from './mixin/CalendarMixin';
+import { commonMixinWrapper, propType, defaultProp } from './mixin/CommonMixin';
+import DateInput from './date/DateInput';
+import { getTimeConfig, getTodayTime, syncTime } from './util';
+import { goStartMonth, goEndMonth, goTime } from './util/toTime';
+import moment from 'moment';
 
 function noop() {}
+
+var getMomentObjectIfValid = function getMomentObjectIfValid(date) {
+  if (moment.isMoment(date) && date.isValid()) {
+    return date;
+  }
+  return false;
+};
 
 var Calendar = function (_React$Component) {
   _inherits(Calendar, _React$Component);
@@ -30,8 +37,8 @@ var Calendar = function (_React$Component) {
     _initialiseProps.call(_this);
 
     _this.state = {
-      mode: _this.props.mode || "date",
-      value: props.value || props.defaultValue || moment(),
+      mode: _this.props.mode || 'date',
+      value: getMomentObjectIfValid(props.value) || getMomentObjectIfValid(props.defaultValue) || moment(),
       selectedValue: props.selectedValue || props.defaultSelectedValue
     };
     return _this;
@@ -49,13 +56,13 @@ var Calendar = function (_React$Component) {
 
     var newState = {};
 
-    if ("mode" in nextProps && state.mode !== nextProps.mode) {
+    if ('mode' in nextProps && state.mode !== nextProps.mode) {
       newState = { mode: nextProps.mode };
     }
-    if ("value" in nextProps) {
-      newState.value = value || nextProps.defaultValue || getNowByCurrentStateValue(state.value);
+    if ('value' in nextProps) {
+      newState.value = getMomentObjectIfValid(value) || getMomentObjectIfValid(nextProps.defaultValue) || getNowByCurrentStateValue(state.value);
     }
-    if ("selectedValue" in nextProps) {
+    if ('selectedValue' in nextProps) {
       newState.selectedValue = selectedValue;
     }
 
@@ -78,7 +85,7 @@ var Calendar = function (_React$Component) {
         selectedValue = state.selectedValue,
         mode = state.mode;
 
-    var showTimePicker = mode === "time";
+    var showTimePicker = mode === 'time';
     var disabledTimeConfig = showTimePicker && disabledTime && timePicker ? getTimeConfig(selectedValue, disabledTime) : null;
 
     var timePickerEle = null;
@@ -103,7 +110,7 @@ var Calendar = function (_React$Component) {
 
     var dateInputElement = props.showDateInput ? React.createElement(DateInput, {
       format: this.getFormat(),
-      key: "date-input",
+      key: 'date-input',
       value: value,
       locale: locale,
       placeholder: dateInputPlaceholder,
@@ -124,14 +131,14 @@ var Calendar = function (_React$Component) {
       children.push(props.renderSidebar());
     }
     children.push(React.createElement(
-      "div",
-      { className: prefixCls + "-panel", key: "panel" },
+      'div',
+      { className: prefixCls + '-panel', key: 'panel' },
       dateInputElement,
       React.createElement(
-        "div",
+        'div',
         {
           tabIndex: this.props.focusablePanel ? 0 : undefined,
-          className: prefixCls + "-date-panel"
+          className: prefixCls + '-date-panel'
         },
         React.createElement(CalendarHeader, {
           locale: locale,
@@ -144,17 +151,17 @@ var Calendar = function (_React$Component) {
           prefixCls: prefixCls
         }),
         timePicker && showTimePicker ? React.createElement(
-          "div",
-          { className: prefixCls + "-time-picker" },
+          'div',
+          { className: prefixCls + '-time-picker' },
           React.createElement(
-            "div",
-            { className: prefixCls + "-time-picker-panel" },
+            'div',
+            { className: prefixCls + '-time-picker-panel' },
             timePickerEle
           )
         ) : null,
         React.createElement(
-          "div",
-          { className: prefixCls + "-body" },
+          'div',
+          { className: prefixCls + '-body' },
           React.createElement(DateTable, {
             locale: locale,
             value: value,
@@ -192,7 +199,7 @@ var Calendar = function (_React$Component) {
 
     return this.renderRoot({
       children: children,
-      className: props.showWeekNumber ? prefixCls + "-week-number" : ""
+      className: props.showWeekNumber ? prefixCls + '-week-number' : ''
     });
   };
 
@@ -207,7 +214,7 @@ Calendar.propTypes = _extends({}, calendarMixinPropTypes, propType, {
   value: PropTypes.object,
   selectedValue: PropTypes.object,
   defaultSelectedValue: PropTypes.object,
-  mode: PropTypes.oneOf(["time", "date", "month", "year", "decade"]),
+  mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
   locale: PropTypes.object,
   showDateInput: PropTypes.bool,
   showWeekNumber: PropTypes.bool,
@@ -246,14 +253,14 @@ var _initialiseProps = function _initialiseProps() {
     var props = _this2.props,
         state = _this2.state;
 
-    if (!("mode" in props)) {
+    if (!('mode' in props)) {
       _this2.setState({ mode: mode });
     }
     props.onPanelChange(value || state.value, mode);
   };
 
   this.onKeyDown = function (event) {
-    if (event.target.nodeName.toLowerCase() === "input") {
+    if (event.target.nodeName.toLowerCase() === 'input') {
       return undefined;
     }
     var keyCode = event.keyCode;
@@ -264,26 +271,26 @@ var _initialiseProps = function _initialiseProps() {
 
     switch (keyCode) {
       case KeyCode.DOWN:
-        _this2.goTime(1, "weeks");
+        _this2.goTime(1, 'weeks');
         event.preventDefault();
         return 1;
       case KeyCode.UP:
-        _this2.goTime(-1, "weeks");
+        _this2.goTime(-1, 'weeks');
         event.preventDefault();
         return 1;
       case KeyCode.LEFT:
         if (ctrlKey) {
-          _this2.goTime(-1, "years");
+          _this2.goTime(-1, 'years');
         } else {
-          _this2.goTime(-1, "days");
+          _this2.goTime(-1, 'days');
         }
         event.preventDefault();
         return 1;
       case KeyCode.RIGHT:
         if (ctrlKey) {
-          _this2.goTime(1, "years");
+          _this2.goTime(1, 'years');
         } else {
-          _this2.goTime(1, "days");
+          _this2.goTime(1, 'days');
         }
         event.preventDefault();
         return 1;
@@ -296,17 +303,17 @@ var _initialiseProps = function _initialiseProps() {
         event.preventDefault();
         return 1;
       case KeyCode.PAGE_DOWN:
-        _this2.goTime(1, "month");
+        _this2.goTime(1, 'month');
         event.preventDefault();
         return 1;
       case KeyCode.PAGE_UP:
-        _this2.goTime(-1, "month");
+        _this2.goTime(-1, 'month');
         event.preventDefault();
         return 1;
       case KeyCode.ENTER:
         if (!disabledDate || !disabledDate(value)) {
           _this2.onSelect(value, {
-            source: "keyboard"
+            source: 'keyboard'
           });
         }
         event.preventDefault();
@@ -332,13 +339,13 @@ var _initialiseProps = function _initialiseProps() {
 
   this.onDateInputChange = function (value) {
     _this2.onSelect(value, {
-      source: "dateInput"
+      source: 'dateInput'
     });
   };
 
   this.onDateInputSelect = function (value) {
     _this2.onSelect(value, {
-      source: "dateInputSelect"
+      source: 'dateInputSelect'
     });
   };
 
@@ -360,7 +367,7 @@ var _initialiseProps = function _initialiseProps() {
 
     var now = getTodayTime(value);
     _this2.onSelect(now, {
-      source: "todayButton"
+      source: 'todayButton'
     });
   };
 
@@ -369,11 +376,11 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.openTimePicker = function () {
-    _this2.onPanelChange(null, "time");
+    _this2.onPanelChange(null, 'time');
   };
 
   this.closeTimePicker = function () {
-    _this2.onPanelChange(null, "date");
+    _this2.onPanelChange(null, 'date');
   };
 
   this.goTime = function (direction, unit) {

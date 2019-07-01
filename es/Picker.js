@@ -122,7 +122,9 @@ Picker.propTypes = {
   placement: PropTypes.any,
   value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   defaultValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  align: PropTypes.object
+  align: PropTypes.object,
+  dateRender: PropTypes.func,
+  onBlur: PropTypes.func
 };
 Picker.defaultProps = {
   prefixCls: 'rc-calendar-picker',
