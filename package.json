@@ -1,7 +1,7 @@
 {
-  "name": "rc-calendar",
+  "name": "rc-calendar-gmsoft",
   "version": "9.15.3",
-  "description": "React Calendar",
+  "description": "fork rc-calendar",
   "keywords": [
     "react",
     "react-calendar",
@@ -20,20 +20,23 @@
   ],
   "main": "lib/index",
   "module": "es/index",
-  "homepage": "http://github.com/react-component/calendar",
+  "homepage": "https://github.com/gmsoft-happyCoding/calendar",
   "author": "yiminghe@gmail.com",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:react-component/calendar.git"
+    "url": "git@github.com:gmsoft-happyCoding/calendar.git"
   },
   "bugs": {
-    "url": "http://github.com/react-component/calendar/issues"
+    "url": "https://github.com/gmsoft-happyCoding/calendar/issues"
   },
   "licenses": "MIT",
   "config": {
     "port": 8002,
     "entry": {
-      "rc-calendar": [
+      "rc-calendar-gmsoft": [
         "./assets/index.less",
         "./src/index.js"
       ]
