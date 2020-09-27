@@ -29,8 +29,8 @@ export default class YearPanel extends React.Component {
     this.state = {
       value: props.value || props.defaultValue,
     };
-    this.nextDecade = goYear.bind(this, 10);
-    this.previousDecade = goYear.bind(this, -10);
+    this.nextDecade = goYear.bind(this, 14);
+    this.previousDecade = goYear.bind(this, -19);
   }
 
   years() {
@@ -61,8 +61,8 @@ export default class YearPanel extends React.Component {
     const { locale, renderFooter } = props;
     const years = this.years();
     const currentYear = value.year();
-    const startYear = parseInt(currentYear / 10, 10) * 10;
-    const endYear = startYear + 9;
+    const startYear = currentYear - 7;
+    const endYear = startYear + 4;
     const prefixCls = this.prefixCls;
 
     const yeasEls = years.map((row, index) => {
@@ -75,9 +75,9 @@ export default class YearPanel extends React.Component {
         };
         let clickHandler;
         if (yearData.year < startYear) {
-          clickHandler = this.previousDecade;
+          clickHandler = chooseYear.bind(this, yearData.year);
         } else if (yearData.year > endYear) {
-          clickHandler = this.nextDecade;
+          clickHandler = chooseYear.bind(this, yearData.year);
         } else {
           clickHandler = chooseYear.bind(this, yearData.year);
         }
@@ -89,14 +89,15 @@ export default class YearPanel extends React.Component {
             onClick={clickHandler}
             className={classnames(classNameMap)}
           >
-            <a
-              className={`${prefixCls}-year`}
-            >
-              {yearData.content}
-            </a>
-          </td>);
+            <a className={`${prefixCls}-year`}>{yearData.content}</a>
+          </td>
+        );
       });
-      return (<tr key={index} role="row">{tds}</tr>);
+      return (
+        <tr key={index} role="row">
+          {tds}
+        </tr>
+      );
     });
 
     const footer = renderFooter && renderFooter('year');
@@ -132,18 +133,14 @@ export default class YearPanel extends React.Component {
           </div>
           <div className={`${prefixCls}-body`}>
             <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
-              <tbody className={`${prefixCls}-tbody`}>
-                {yeasEls}
-              </tbody>
+              <tbody className={`${prefixCls}-tbody`}>{yeasEls}</tbody>
             </table>
           </div>
 
-          {footer && (
-            <div className={`${prefixCls}-footer`}>
-              {footer}
-            </div>)}
+          {footer && <div className={`${prefixCls}-footer`}>{footer}</div>}
         </div>
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -155,6 +152,5 @@ YearPanel.propTypes = {
 };
 
 YearPanel.defaultProps = {
-  onSelect() {
-  },
+  onSelect() {},
 };
